@@ -55,7 +55,7 @@ module.exports = {
                     let attachment = new Discord.MessageAttachment(client.user.displayAvatarURL({ format: "png", size: 64, dynamic: true }), "icon.png")
                     let motd = "A Minecraft Server"
 
-                    if (data.online === true) {
+                    if (data.online === "true") {
 
                         status = "Online"
                         color = bconfig.botnewcolor
@@ -68,18 +68,18 @@ module.exports = {
                             motd = data.motd.clean
                         }
 
-                        if (data.players.list) {
+                        if (data.players.online === null) {
 
-                            people = data.players.list.join(' , ')
-
+                            people = "Currently No One Is Playing In Server"
                         }
                         else if (data.players.online > 10) {
 
                             people = "More Than 10 Players Playing In This Server , Can't List Them"
                         }
-                        else if (data.players.online === 0) {
+                        else if (data.players.list !== 0) {
 
-                            people = "Currently No One Is Playing In Server"
+                            people = data.players.list.join(' , ')
+
                         }
                     }
 
