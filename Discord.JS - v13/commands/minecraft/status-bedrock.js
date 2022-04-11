@@ -53,7 +53,7 @@ module.exports = {
                     let attachment = new Discord.MessageAttachment(client.user.displayAvatarURL({ format: "png", size: 64, dynamic: true }), "icon.png")
                     let motd = "A Minecraft Server"
 
-                    if (data.online === "true") {
+                    if (data.online === true) {
 
                         status = "Online"
                         color = bconfig.botnewcolor
