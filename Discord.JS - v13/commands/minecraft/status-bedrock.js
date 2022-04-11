@@ -49,9 +49,10 @@ module.exports = {
 
                     let status = "Offline"
                     let color = bconfig.botoldcolor
-                    let people = "Currently Players are Hidden For This Server"
                     let attachment = new Discord.MessageAttachment(client.user.displayAvatarURL({ format: "png", size: 64, dynamic: true }), "icon.png")
                     let motd = "A Minecraft Server"
+                    let onlineplayers = 0
+                    let maxplayers = 0
 
                     if (data.online === true) {
 
@@ -66,18 +67,14 @@ module.exports = {
                             motd = data.motd.clean
                         }
 
-                        if (data.players.online === null) {
-
-                            people = "Currently No One Is Playing In Server"
+                        if (data.players.online !== 0) {
+                            
+                            onlineplayers = data.players.online
                         }
-                        else if (data.players.online > 10) {
 
-                            people = "More Than 10 Players Playing In This Server , Can't List Them"
-                        }
-                        else if (data.players.list !== 0) {
+                        if (data.players.max !== 0) {
 
-                            people = data.players.list.join(' , ')
-
+                            maxplayers = data.players.max
                         }
                     }
 
@@ -102,12 +99,8 @@ module.exports = {
                             "inline": true
                         },
                         {
-                            "name": "Motd",
-                            "value": "```" + motd + "```"
-                        },
-                        {
                             "name": "Player Count",
-                            "value": "```" + data.players.online + "/" + data.players.max + "```",
+                            "value": "```" + onlineplayers + "/" + maxplayers + "```",
                             "inline": true
                         },
                         {
@@ -116,8 +109,8 @@ module.exports = {
                             "inline": true
                         },
                         {
-                            "name": "Players",
-                            "value": "```" + people + "```"
+                            "name": "Motd",
+                            "value": "```" + motd + "```"
                         }
                     ])
                     embedStatus.setThumbnail("attachment://icon.png")
