@@ -8,8 +8,6 @@ module.exports = {
     cooldown: 10,
     async execute(message, _args, client) {
 
-        let logschannel = client.channels.cache.find(ch => ch.id === bconfig.botlogschannel);
-
         let mcIP = predb.get(`guild_${message.guild.id}_ip`) || "Not Setup"
         let mcPort = predb.get(`guild_${message.guild.id}_port`) || "Not Setup"
 
@@ -132,7 +130,7 @@ module.exports = {
 
         } catch (error) {
 
-            logschannel.send("```" + error + "```")
+            console.log(error)
 
             return message.channel.send({ embeds: [embederr] });
         }

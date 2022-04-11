@@ -8,6 +8,5 @@
     "botago": "86400000",
     "botoldcolor": "RED",
     "botnewcolor": "GREEN",
-    "botreportchannel": "channel-id-where-report-command-send-reports",
-    "botlogschannel": "channel-id-where-bot-logs-send"
+    "botreportchannel": "channel-id-where-report-command-send-reports"
 }
