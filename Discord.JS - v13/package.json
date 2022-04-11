@@ -4,7 +4,7 @@
   "description": "Minecraft Server Status Bot is a Discord Bot Which Gives You Status Of Your Minecraft Server .",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js >log-file.txt 2>error-file.txt"
+    "start": "node index.js > log-file.txt"
   },
   "keywords": [],
   "author": "LegendX",
