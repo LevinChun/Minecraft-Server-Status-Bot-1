@@ -63,6 +63,11 @@ module.exports = {
         "name": "Privacy",
         "value": "**[Here](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/PRIVACY.md)**",
         "inline": true
+      },
+      {
+        "name": "Terms Of Services",
+        "value": "**[Here](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/TOS.md)**",
+        "inline": true
       }
     ])
     embedInfo.setColor("BLUE");
