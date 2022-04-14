@@ -55,6 +55,11 @@ module.exports = {
         "inline": true
       },
       {
+        "name": "FAQ's",
+        "value": `**[Here](${bconfig.faqswebsitelink})**`,
+        "inline": true
+      },
+      {
         "name": "Github",
         "value": "**[Here](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot)**",
         "inline": true

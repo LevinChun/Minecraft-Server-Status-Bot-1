@@ -5,7 +5,7 @@ const bconfig = require("../../config.json");
 
 module.exports = {
     name: 'status-java',
-    cooldown: 10,
+    cooldown: 30,
     async execute(message, _args, client) {
 
         let mcIP = predb.get(`guild_${message.guild.id}_ip`) || "Not Setup"
@@ -51,6 +51,7 @@ module.exports = {
                     let color = bconfig.botoldcolor
                     let attachment = new Discord.MessageAttachment(client.user.displayAvatarURL({ format: "png", size: 64, dynamic: true }), "icon.png")
                     let motd = "A Minecraft Server"
+                    let players = "Currently Players Are Hidden On This Server , For More Info See [FAQ](https://faq.log-network.me) Of Minecraft Server Status Discord Bot"
                     let onlineplayers = 0
                     let maxplayers = 0
 
@@ -68,13 +69,33 @@ module.exports = {
                         }
 
                         if (data.players.online !== 0) {
-                            
+
                             onlineplayers = data.players.online
                         }
 
                         if (data.players.max !== 0) {
 
                             maxplayers = data.players.max
+                        }
+
+                        if (data.players.list !== undefined) {
+
+                            if (data.players.list === null) {
+
+                                players = "No One Is Currently Playing On This Server"
+                            }
+                            else if (data.players.list !== null) {
+
+                                if (data.players.list > 10) {
+
+                                    players = "More Than 10 Players Are Playing , Cant List Them"
+                                }
+                                else if (data.players.list < 10) {
+
+                                    players = data.players.list.join(" , ")
+                                }
+
+                            }
                         }
                     }
 
@@ -111,6 +132,10 @@ module.exports = {
                         {
                             "name": "Motd",
                             "value": "```" + motd + "```"
+                        },
+                        {
+                            "name": "Players",
+                            "value": "```" + players + "```"
                         }
                     ])
                     embedStatus.setThumbnail("attachment://icon.png")
