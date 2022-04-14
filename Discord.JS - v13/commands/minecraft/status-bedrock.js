@@ -51,7 +51,7 @@ module.exports = {
                     let color = bconfig.botoldcolor
                     let attachment = new Discord.MessageAttachment(client.user.displayAvatarURL({ format: "png", size: 64, dynamic: true }), "icon.png")
                     let motd = "A Minecraft Server"
-                    let players = "Currently Players Are Hidden On This Server , For More Info See [FAQ](https://faq.log-network.me) Of Minecraft Server Status Discord Bot"
+                    let players = "Currently Players Are Hidden On This Server , For More Info See https://faq.log-network.me Of Minecraft Server Status Discord Bot"
                     let onlineplayers = 0
                     let maxplayers = 0
 
