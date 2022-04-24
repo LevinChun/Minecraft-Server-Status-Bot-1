@@ -1,25 +1,38 @@
 const Discord = require('discord.js');
 const bconfig = require('../../config.json')
+const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
-    name: 'update',
-    cooldown: 5,
-    execute(message, _args, client) {
+   data: new SlashCommandBuilder()
+      .setName("update")
+      .setDescription("Shows Bot Latest Update"),
+   async execute(interaction) {
 
-        // bot-perm
-        if (!message.guild.me.permissions.has('EMBED_LINKS')) return message.channel.send('Please Give Me **EMBED_LINKS** permission in this channel .')
+      // bot-perm
+      if (!interaction.guild.me.permissionsIn(interaction.channel).has(Discord.Permissions.FLAGS.EMBED_LINKS)) {
 
-        let embedUpdate = new Discord.MessageEmbed();
-        embedUpdate.setTitle(client.user.username)
-        embedUpdate.setURL(bconfig.websitelink)
-        embedUpdate.setDescription(`
+         interaction.reply({
+
+            content: "Please Give Me **EMBED_LINKS** permission in this channel .",
+            ephemeral: true,
+
+         });
+      }
+
+      let embedUpdate = new Discord.MessageEmbed();
+      embedUpdate.setTitle(interaction.client.user.username)
+      embedUpdate.setURL(bconfig.websitelink)
+      embedUpdate.setDescription(`
         • Updated To Discord.JS v13
+        • Added Slash Commands
         `)
-        embedUpdate.setColor("BLUE");
-        embedUpdate.setThumbnail(client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
-        embedUpdate.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() });
-        embedUpdate.setTimestamp();
-        message.channel.send({ embeds: [embedUpdate] });
+      embedUpdate.setColor("BLUE");
+      embedUpdate.setThumbnail(interaction.client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
+      embedUpdate.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
+      embedUpdate.setTimestamp();
 
-    }
+      interaction.reply({
+         embeds: [embedUpdate]
+      });
+   }
 }

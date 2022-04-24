@@ -1,29 +1,59 @@
 const Discord = require('discord.js');
+const bconfig = require('../../config.json')
 const predb = require('quick.db')
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
-const bconfig = require("../../config.json");
+const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
-    name: 'status-bedrock',
-    cooldown: 30,
-    async execute(message, _args, client) {
-
-        let mcIP = predb.get(`guild_${message.guild.id}_ip`) || "Not Setup"
-        let mcPort = predb.get(`guild_${message.guild.id}_port`) || "Not Setup"
+    data: new SlashCommandBuilder()
+        .setName("status")
+        .setDescription("Shows Your Server Status")
+        .addStringOption((option) =>
+            option
+                .setName("type")
+                .setDescription("Write The TYPE Of Your Minecraft Server : java/bedrock")
+                .setRequired(true)
+        ),
+    async execute(interaction) {
 
         // bot-perm
-        if (!message.guild.me.permissions.has('EMBED_LINKS')) return message.channel.send('Please Give Me **EMBED_LINKS** permission in this channel .')
+        if (!interaction.guild.me.permissionsIn(interaction.channel).has(Discord.Permissions.FLAGS.EMBED_LINKS)) {
+
+            interaction.reply({
+
+                content: "Please Give Me **EMBED_LINKS** permission in this channel .",
+                ephemeral: true,
+
+            });
+        }
+
+        let mcIP = predb.get(`guild_${interaction.guild.id}_ip`) || "Not Setup"
+        let mcPort = predb.get(`guild_${interaction.guild.id}_port`) || "Not Setup"
 
         let embedstatuserr = new Discord.MessageEmbed()
         embedstatuserr.setDescription(`
         • Maybe, IP and PORT Has Been Not Setuped For This Server .
-        • If you thought that bot is giving wrong reply then use **${bconfig.defaultprefix}reset** for reset and then **${bconfig.defaultprefix}setup** command for setup your server ip and port again`)
+        • If you thought that bot is giving wrong reply then use **/reset** for reset and then **/setup** command for setup your server ip and port again`)
         embedstatuserr.setColor('RED')
-        embedstatuserr.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
+        embedstatuserr.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
         embedstatuserr.setTimestamp()
 
-        if (!message.guild.id === predb.has(`guild_${message.guild.id}_ip`)) return message.channel.send({ embeds: [embedstatuserr] })
-        if (!message.guild.id === predb.has(`guild_${message.guild.id}_port`)) return message.channel.send({ embeds: [embedstatuserr] })
+        if (!predb.has(`guild_${interaction.guild.id}_ip`)) {
+
+            interaction.reply({
+
+                embeds: [embedstatuserr]
+
+            });
+        }
+        if (!predb.has(`guild_${interaction.guild.id}_port`)) {
+
+            interaction.reply({
+
+                embeds: [embedstatuserr]
+
+            });
+        }
 
         let embederr = new Discord.MessageEmbed()
         embederr.setDescription(`
@@ -36,10 +66,20 @@ module.exports = {
         • Your Minecraft Server Query Is False .
         `)
         embederr.setColor('RED')
-        embederr.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
+        embederr.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() })
         embederr.setTimestamp()
 
-        let serverURL = `https://api.mcsrvstat.us/bedrock/2/${mcIP}:${mcPort}`;
+        let serverURL;
+
+        if (interaction.options.getString("type") === "java") {
+
+            serverURL = `https://api.mcsrvstat.us/2/${mcIP}:${mcPort}`;
+
+        }
+        else if (interaction.options.getString("type") === "bedrock") {
+
+            serverURL = `https://api.mcsrvstat.us/bedrock/2/${mcIP}:${mcPort}`;
+        }
 
         try {
 
@@ -49,7 +89,7 @@ module.exports = {
 
                     let status = "Offline"
                     let color = bconfig.botoldcolor
-                    let attachment = new Discord.MessageAttachment(client.user.displayAvatarURL({ format: "png", size: 64, dynamic: true }), "icon.png")
+                    let attachment = new Discord.MessageAttachment(interaction.client.user.displayAvatarURL({ format: "png", size: 64, dynamic: true }), "icon.png")
                     let motd = "A Minecraft Server"
                     let players = "Currently Players Are Hidden On This Server , For More Info See https://faqs.log-network.me Of Minecraft Server Status Discord Bot"
                     let onlineplayers = 0
@@ -100,7 +140,7 @@ module.exports = {
                     }
 
                     let embedStatus = new Discord.MessageEmbed();
-                    embedStatus.setTitle(client.user.username)
+                    embedStatus.setTitle(interaction.client.user.username)
                     embedStatus.setURL(bconfig.websitelink)
                     embedStatus.setDescription("Your Minecraft Server Panel Here :-")
                     embedStatus.addFields([
@@ -140,9 +180,14 @@ module.exports = {
                     ])
                     embedStatus.setThumbnail("attachment://icon.png")
                     embedStatus.setColor(color);
-                    embedStatus.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() });
+                    embedStatus.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
                     embedStatus.setTimestamp();
-                    message.channel.send({ embeds: [embedStatus], files: [attachment] });
+
+                    interaction.reply({
+
+                        embeds: [embedStatus], files: [attachment]
+
+                    });
 
                 })
 
@@ -150,8 +195,11 @@ module.exports = {
 
             console.log(error)
 
-            return message.channel.send({ embeds: [embederr] });
-        }
+            interaction.reply({
 
+                embeds: [embederr]
+
+            });
+        }
     }
 }

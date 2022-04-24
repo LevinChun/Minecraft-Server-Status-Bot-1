@@ -1,72 +1,71 @@
 const Discord = require('discord.js');
-const predb = require('quick.db')
 const bconfig = require('../../config.json')
+const predb = require('quick.db')
+const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
-    name: 'setup',
-    cooldown: 10,
-    async execute(message, args, client) {
-
-        // user-perm
-        if (!message.member.permissions.has('MANAGE_GUILD')) return message.channel.send('Make Sure You Have **MANAGE_SERVER** permission to use this command .')
+    data: new SlashCommandBuilder()
+        .setName("setup")
+        .setDescription("Sets Your IP and PORT")
+        .addStringOption((option) =>
+            option
+                .setName("ip")
+                .setDescription("Write The IP Of Your Minecraft Server")
+                .setRequired(true)
+        )
+        .addIntegerOption((option) =>
+            option
+                .setName("port")
+                .setDescription("Write The PORT Of Your Minecraft Server")
+                .setRequired(true)
+        ),
+    async execute(interaction) {
 
         // bot-perm
-        if (!message.guild.me.permissions.has('EMBED_LINKS')) return message.channel.send('Please Give Me **EMBED_LINKS** permission in this channel .')
+        if (!interaction.guild.me.permissionsIn(interaction.channel).has(Discord.Permissions.FLAGS.EMBED_LINKS)) {
 
-        let embedargs = new Discord.MessageEmbed()
-        embedargs.setDescription(`• Please Use **.setup** command like : **${bconfig.defaultprefix}setup serverip serverport**`)
-        embedargs.setColor('RED')
-        embedargs.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
-        embedargs.setTimestamp()
+            interaction.reply({
 
-        if (!args[1]) return message.channel.send({ embeds: [embedargs] })
-        if (!args[2]) return message.channel.send({ embeds: [embedargs] })
+                content: "Please Give Me **EMBED_LINKS** permission in this channel .",
+                ephemeral: true,
 
-        let embedportnum = new Discord.MessageEmbed()
-        embedportnum.setDescription(`• Make Sure That The **PORT** you are entering is numeric`)
-        embedportnum.setColor('RED')
-        embedportnum.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
-        embedportnum.setTimestamp()
+            });
+        }
+        //user-perm
+        if (!interaction.member.permissions.has(Discord.Permissions.FLAGS.MANAGE_GUILD)) {
 
-        if (isNaN(parseInt(args[2]))) return message.channel.send({ embeds: [embedportnum] })
+            interaction.reply({
 
-        let embedportlength = new Discord.MessageEmbed()
-        embedportlength.setDescription(`• Make Sure That The **PORT** you are entering is not more than 5 numbers`)
-        embedportlength.setColor('RED')
-        embedportlength.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
-        embedportlength.setTimestamp()
+                content: "Make Sure You Have **MANAGE_SERVER** permission to use this command .",
+                ephemeral: true,
 
-        if (args[2].length > 5) return message.channel.send({ embeds: [embedportlength] })
+            });
+        }
 
-        let embedsameip = new Discord.MessageEmbed()
-        embedsameip.setDescription(`• Looks Like You Server Has Already An IP , For View It Use **${bconfig.defaultprefix}ip** , For Reset Use **${bconfig.defaultprefix}reset**`)
-        embedsameip.setColor('YELLOW')
-        embedsameip.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() })
-        embedsameip.setTimestamp()
-
-        if (predb.has(`guild_${message.guild.id}_ip`)) return message.channel.send({ embeds: [embedsameip] })
-
-        await predb.set(`guild_${message.guild.id}_ip`, args[1])
-        await predb.set(`guild_${message.guild.id}_port`, args[2])
+        await predb.set(`guild_${interaction.guild.id}_ip`, interaction.options.getString("ip"))
+        await predb.set(`guild_${interaction.guild.id}_port`, interaction.options.getInteger("port"))
 
         let embedSetup = new Discord.MessageEmbed();
-        embedSetup.setTitle(client.user.username)
+        embedSetup.setTitle(interaction.client.user.username)
         embedSetup.setURL(bconfig.websitelink)
         embedSetup.setDescription("Setup Panel Here :-")
         embedSetup.addFields([
             {
                 "name": "IP",
-                "value": "```" + `${args[1]}` + "```"
+                "value": "```" + `${interaction.options.getString("ip")}` + "```"
             },
             {
                 "name": "PORT",
-                "value": "```" + `${args[2]}` + "```"
+                "value": "```" + `${interaction.options.getInteger("port")}` + "```"
             }
         ])
         embedSetup.setColor("GREEN");
-        embedSetup.setThumbnail(client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
-        embedSetup.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() });
+        embedSetup.setThumbnail(interaction.client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
+        embedSetup.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
         embedSetup.setTimestamp();
-        return message.channel.send({ embeds: [embedSetup] });
+
+        interaction.reply({
+            embeds: [embedSetup]
+        });
     }
 }

@@ -1,85 +1,111 @@
 const Discord = require('discord.js');
 const bconfig = require('../../config.json')
+const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
-  name: 'info',
-  cooldown: 5,
-  execute(message, _args, client) {
+    data: new SlashCommandBuilder()
+        .setName("info")
+        .setDescription("Gives My Info"),
+    async execute(interaction) {
 
-    // bot-perm
-    if (!message.guild.me.permissions.has('EMBED_LINKS')) return message.channel.send('Please Give Me **EMBED_LINKS** permission in this channel .')
+        // bot-perm
+        if (!interaction.guild.me.permissionsIn(interaction.channel).has(Discord.Permissions.FLAGS.EMBED_LINKS)) {
 
-    let embedInfo = new Discord.MessageEmbed();
-    embedInfo.setTitle(client.user.username)
-    embedInfo.setURL(bconfig.websitelink)
-    embedInfo.setDescription("Info Panel Here :-")
-    embedInfo.addFields([
-      {
-        "name": "Language",
-        "value": "**[JavaScript](https://www.javascript.com)**",
-        "inline": true
-      },
-      {
-        "name": "Platform",
-        "value": "**[NodeJS](https://nodejs.org/en)**",
-        "inline": true
-      },
-      {
-        "name": "Library",
-        "value": "**[Discord.js](https://discordjs.guide)**",
-        "inline": true
-      },
-      {
-        "name": "Packages",
-        "value": "**[NPM](https://www.npmjs.com)**",
-        "inline": true
-      },
-      {
-        "name": "Api",
-        "value": "**[Mcsrvstat](https://api.mcsrvstat.us)**",
-        "inline": true
-      },
-      {
-        "name": "Database",
-        "value": "**[Quick.db](https://quickdb.js.org)**",
-        "inline": true
-      },
-      {
-        "name": "Website",
-        "value": `**[Here](${bconfig.websitelink})**`,
-        "inline": true
-      },
-      {
-        "name": "Documentation Website",
-        "value": `**[Here](${bconfig.docswebsitelink})**`,
-        "inline": true
-      },
-      {
-        "name": "FAQ's",
-        "value": `**[Here](${bconfig.faqswebsitelink})**`,
-        "inline": true
-      },
-      {
-        "name": "Github",
-        "value": "**[Here](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot)**",
-        "inline": true
-      },
-      {
-        "name": "Privacy",
-        "value": "**[Here](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/PRIVACY.md)**",
-        "inline": true
-      },
-      {
-        "name": "Terms Of Services",
-        "value": "**[Here](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/TOS.md)**",
-        "inline": true
-      }
-    ])
-    embedInfo.setColor("BLUE");
-    embedInfo.setThumbnail(client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
-    embedInfo.setFooter({ text: `${message.author.tag}`, iconURL: message.author.displayAvatarURL() });
-    embedInfo.setTimestamp();
-    message.channel.send({ embeds: [embedInfo] });
-  }
+            interaction.reply({
 
+                content: "Please Give Me **EMBED_LINKS** permission in this channel .",
+                ephemeral: true,
+
+            });
+        }
+
+        const row1 = new Discord.MessageActionRow()
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Language - JS")
+                    .setStyle('LINK')
+                    .setURL("https://www.javascript.com"),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Platform - NodeJS")
+                    .setStyle('LINK')
+                    .setURL("https://nodejs.org/en"),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Library - Discord.JS")
+                    .setStyle('LINK')
+                    .setURL(bconfig.botinvitelink),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Packages - NPM")
+                    .setStyle('LINK')
+                    .setURL("https://www.npmjs.com"),
+            )
+
+        const row2 = new Discord.MessageActionRow()
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Api - Mcsrvstat")
+                    .setStyle('LINK')
+                    .setURL("https://api.mcsrvstat.us"),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Databse - Quick.db")
+                    .setStyle('LINK')
+                    .setURL("https://quickdb.js.org"),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Website")
+                    .setStyle('LINK')
+                    .setURL(bconfig.websitelink),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Docs Website")
+                    .setStyle('LINK')
+                    .setURL(bconfig.docswebsitelink),
+            )
+
+        const row3 = new Discord.MessageActionRow()
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("FAQ'S")
+                    .setStyle('LINK')
+                    .setURL(bconfig.faqswebsitelink),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Github")
+                    .setStyle('LINK')
+                    .setURL("https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot"),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Privacy")
+                    .setStyle('LINK')
+                    .setURL("https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/PRIVACY.md"),
+            )
+            .addComponents(
+                new Discord.MessageButton()
+                    .setLabel("Terms Of Services")
+                    .setStyle('LINK')
+                    .setURL("https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/TOS.md"),
+            )
+
+        let embedInfo = new Discord.MessageEmbed();
+        embedInfo.setTitle(interaction.client.user.username)
+        embedInfo.setURL(bconfig.websitelink)
+        embedInfo.setDescription("Info Panel Here :-")
+        embedInfo.setColor("BLUE");
+
+        interaction.reply({
+            embeds: [embedInfo],
+            components: [row1, row2, row3]
+        });
+    }
 }

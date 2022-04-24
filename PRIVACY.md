@@ -37,6 +37,6 @@ In particular, Users have the right to do the following:
 -   **Access their Data.** Users have the right to learn if Data is being processed by the Owner, obtain disclosure regarding certain aspects of the processing and obtain a copy of the Data undergoing processing.
 -   **Verify and seek rectification.** Users have the right to verify the accuracy of their Data and ask for it to be updated or corrected.
 -   **Restrict the processing of their Data.** Users have the right, under certain circumstances, to restrict the processing of their Data. In this case, we will not process their Data for any purpose other than storing it.
--   **Have their data deleted or otherwise removed.** Users have the right, under certain circumstances, to obtain the erasure of their Data from our database by running the command .reset or (botprefix)reset.
+-   **Have their data deleted or otherwise removed.** Users have the right, under certain circumstances, to obtain the erasure of their Data from our database by running the command /reset.
 
 If you any issues or bugs please contact us via .report or join our [discord server](https://log-network.me/discord) .
