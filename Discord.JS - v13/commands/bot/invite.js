@@ -27,14 +27,7 @@ module.exports = {
                .setURL(bconfig.botinvitelink),
          )
 
-      let embedInvite = new Discord.MessageEmbed();
-      embedInvite.setTitle(interaction.client.user.username)
-      embedInvite.setURL(bconfig.websitelink)
-      embedInvite.setDescription("Click On The Button Below")
-      embedInvite.setColor("BLUE");
-
       interaction.reply({
-         embeds: [embedInvite],
          components: [row]
       });
    }

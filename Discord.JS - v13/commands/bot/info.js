@@ -97,14 +97,7 @@ module.exports = {
                     .setURL("https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/TOS.md"),
             )
 
-        let embedInfo = new Discord.MessageEmbed();
-        embedInfo.setTitle(interaction.client.user.username)
-        embedInfo.setURL(bconfig.websitelink)
-        embedInfo.setDescription("Info Panel Here :-")
-        embedInfo.setColor("BLUE");
-
         interaction.reply({
-            embeds: [embedInfo],
             components: [row1, row2, row3]
         });
     }

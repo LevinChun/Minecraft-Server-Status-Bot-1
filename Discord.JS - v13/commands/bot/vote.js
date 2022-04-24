@@ -27,14 +27,7 @@ module.exports = {
                .setURL("https://top.gg/bot/802868654957789204"),
          )
 
-      let embedVote = new Discord.MessageEmbed();
-      embedVote.setTitle(interaction.client.user.username)
-      embedVote.setURL(bconfig.websitelink)
-      embedVote.setDescription("Voting Link Panel Here :-")
-      embedVote.setColor("BLUE");
-
       interaction.reply({
-         embeds: [embedVote],
          components: [row]
       });
    }
