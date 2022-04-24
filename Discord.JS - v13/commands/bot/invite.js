@@ -32,9 +32,6 @@ module.exports = {
       embedInvite.setURL(bconfig.websitelink)
       embedInvite.setDescription("Click On The Button Below")
       embedInvite.setColor("BLUE");
-      embedInvite.setThumbnail(interaction.client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
-      embedInvite.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
-      embedInvite.setTimestamp();
 
       interaction.reply({
          embeds: [embedInvite],

@@ -32,9 +32,6 @@ module.exports = {
       embedVote.setURL(bconfig.websitelink)
       embedVote.setDescription("Voting Link Panel Here :-")
       embedVote.setColor("BLUE");
-      embedVote.setThumbnail(interaction.client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
-      embedVote.setFooter({ text: `${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
-      embedVote.setTimestamp();
 
       interaction.reply({
          embeds: [embedVote],

@@ -33,7 +33,13 @@ module.exports = {
 
             });
 
-            console.log("Successfully registered commands globally.");
+            const gtext = ` 
+            ______________________________
+            Successfully registered commands globally
+            ______________________________
+            `
+
+            console.log(gtext);
 
          } catch (err) {
 
