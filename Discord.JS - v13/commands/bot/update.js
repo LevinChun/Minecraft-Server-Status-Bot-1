@@ -23,8 +23,15 @@ module.exports = {
       embedUpdate.setTitle(interaction.client.user.username)
       embedUpdate.setURL(bconfig.websitelink)
       embedUpdate.setDescription(`
-        • Updated To Discord.JS v13
-        • Added Slash Commands
+      • Updated To Discord.JS v13
+      • Added Slash Commands
+      • Added Some Buttons
+      • Removed Commands - Prefix , Setup-Prefix , Reset-Prefix , Status-Java , Status-Bedrock
+      • Merged Commands - [Status-Java , Status-Bedrock] - [Status]
+      • Fixed Setup And Reset Commands Issues
+      • Added New Invite Link - [Click Here](https://log-network.me/invite)
+
+    Team LoG-Network
         `)
       embedUpdate.setColor("BLUE");
       embedUpdate.setThumbnail(interaction.client.user.displayAvatarURL({ format: "png", size: 128, dynamic: true }))
