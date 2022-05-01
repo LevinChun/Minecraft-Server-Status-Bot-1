@@ -21,8 +21,8 @@
 ###  Extras
 
  - **[Invite Minecraft Server Status](https://discord.com/oauth2/authorize?client_id=802868654957789204&permissions=2147601409&scope=bot%20applications.commands)**
- - **[Docs](https://docs.log-network.me/)**
- - **[FAQ's](https://faqs.log-network.me/)**
+ - **[Docs](https://bots.log-network.me/docs)**
+ - **[FAQ's](https://bots.log-network.me/faqs)**
  - **[Privacy Policy](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/PRIVACY.md)**
  - **[Terms Of Services](https://github.com/LOG-LEGENDX/Minecraft-Server-Status-Bot/blob/master/TOS.md)**
  - **[Developer Contact](https://log-network.me/contact)**
