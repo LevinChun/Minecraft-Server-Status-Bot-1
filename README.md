@@ -1,7 +1,7 @@
 # Minecraft Server Status Discord Bot
 
 <p align="center">
-    <img src="https://cdn.discordapp.com/attachments/702042187436785706/813810137462472714/Minecraft_Status_Bot.jpg" alt="Minecraft Server Status Bot Logo"/>
+    <img src="https://cdn.discordapp.com/avatars/802868654957789204/353b12394b8155fe40eb03d7fe4ebf2f.webp?size=128" alt="Minecraft Server Status Bot Logo"/>
 </p>
 
 ### About
